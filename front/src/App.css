@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.RegisterComp {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 2rem auto;
+  gap: 5px;
+}
+
+.RegisterComp input,
+.RegisterComp select,
+.RegisterComp button {
+  padding: 0.6rem;
+}
+
+.LoginComp {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 2rem auto;
+  gap: 5px;
+}
+
+.LoginComp input,
+.LoginComp button {
+  padding: 0.6rem;
+}

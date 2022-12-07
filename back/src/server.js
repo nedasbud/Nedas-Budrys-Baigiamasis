@@ -24,7 +24,7 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true, methods: 'GET
 app.use(express.json())
 app.use(
   session({
-    secret: 'aukcionasxd',
+    secret: 'tinderisxd',
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false }
