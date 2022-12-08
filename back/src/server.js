@@ -60,15 +60,18 @@ io.on('connect', socket => {
 
   socket.on('uploadingPicture', data => {
     console.log(data)
-    userSchema.findOneAndUpdate({ username: data.username }, { $push: { pictures: data.newImg } }, function (error, success) { if (error) { console.log(error) } else console.log(success) })
-    console.log('good')
+    userSchema.findOneAndUpdate({ username: data.username }, { $push: { pictures: data.newImg } }, function (error) { if (error) { console.log(error) } else console.log('success') })
     get().then(value => {
       // socket.emit('getOne', value.filter((x) => x.username === data))
       socket.emit('getData', value)
     })
   })
 
-  socket.on('disc', () => {
-    socket.disconnect(0)
+  socket.on('removingPicture', data => {
+    userSchema.findOneAndUpdate({ username: data.username }, { $pull: { pictures: data.img } }, function (error) { if (error) { console.log(error) } else console.log('success') })
+    get().then(value => {
+      // socket.emit('getOne', value.filter((x) => x.username === data))
+      socket.emit('getData', value)
+    })
   })
 })

@@ -13,6 +13,14 @@ const ProfileComp = ({ userData, socket }) => {
     })
   }
 
+  const handleRemoval = () => {
+    socket.emit('removingPicture', {
+      username: userData.username,
+      img: userData.pictures[imgIndex]
+    })
+    setImgIndex(imgIndex - 1)
+  }
+
   if (!userData) {
     return <div>
       <h1>Authentication error: user is not logged in, try <Link to={'/login'}>logging in again</Link> </h1>
@@ -28,6 +36,7 @@ const ProfileComp = ({ userData, socket }) => {
       <div className='imgBox'>
         {imgIndex > 0 && <button onClick={() => { setImgIndex(imgIndex - 1) }}> Previous </button>}
         <img src={userData.pictures[imgIndex]} alt="" />
+        {userData.pictures.length >= 1 && <button onClick={handleRemoval}>Remove this picture</button>}
         {imgIndex < userData.pictures.length - 1 && <button onClick={() => { setImgIndex(imgIndex + 1) }}> Next </button>}
       </div>
       <input ref={picRef} type="text" placeholder='image url' />
