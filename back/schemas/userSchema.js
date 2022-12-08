@@ -22,6 +22,10 @@ const userSchema = new Schema(
     city: {
       type: String,
       required: true
+    },
+    pictures: {
+      type: [String],
+      required: true
     }
   }
 )

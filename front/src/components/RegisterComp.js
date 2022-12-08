@@ -35,8 +35,8 @@ const RegisterComp = () => {
       <input ref={uRef} type="text" placeholder='Username' />
       <input ref={p1Ref} type="text" placeholder='Password' />
       <input ref={p2Ref} type="text" placeholder='Re-Enter Password' />
-      <select ref={gRef} name="gender" id="gender">
-        <option disabled selected value="">Your gender</option>
+      <select defaultValue={''} ref={gRef} name="gender" id="gender">
+        <option disabled value="">Your gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
         <option value="other">Other</option>

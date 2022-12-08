@@ -7,17 +7,20 @@ module.exports = {
     const userExists = await UserSchema.findOne({ username })
     if (userExists) return res.send({ error: true, message: 'user already exists', data: null })
     const hashed = await bcrypt.hash(password1, 10)
-    const newUser = new UserSchema({ username, password: hashed, gender, age, city })
+    const newUser = new UserSchema({ username, password: hashed, gender, age, city, pictures: ['https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png'] })
     await newUser.save()
     res.send({ error: false, message: 'Sekmingai uzsiregsitravote', data: null })
   },
   login: async (req, res) => {
-    const { username, password } = req.body
+    const { username, password, stayLogged } = req.body
+    console.log(req.body)
     const user = await UserSchema.findOne({ username })
     if (!user) return res.send({ error: true, message: 'user not found', data: null })
     const dehash = await bcrypt.compare(password, user.password)
     if (dehash) {
-      req.session.username = username
+      if (stayLogged) req.session.username = username
+      req.session.stayLogged = stayLogged
+      // console.log(req.session)
       return res.send({
         error: false,
         message: 'prisijungta sekmingai',
@@ -27,5 +30,19 @@ module.exports = {
       })
     }
     res.send({ error: true, message: 'wrong credentials', data: null })
+  },
+  isLogged: async (req, res) => {
+    if (req.session.stayLogged === true) {
+      return res.send({ error: false, message: 'user is logged in', data: req.session.username })
+    }
+    if (req.session.stayLogged === false) req.session.destroy()
+    res.send({ error: true, message: 'user is not logged in', data: null })
+  },
+  logout: async (req, res) => {
+    if (req.sessionID) {
+      req.session.destroy()
+      return res.send({ error: false, message: 'user logged out', data: null })
+    }
+    res.send({ error: true, message: 'user is not logged in, nothing to log out', data: null })
   }
 }
