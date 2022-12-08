@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import UserProfilePage from './pages/UserProfilePage';
+import NavBar from './components/NavBar';
 
 const socket = io.connect('http://localhost:4000')
 
@@ -30,7 +31,7 @@ function App() {
 
   useEffect(() => {
     if (!loggedIn) checkIfLogged()
-  }, [loggedIn])
+  })
 
   useEffect(() => {
     socket.on('getData', data => {
@@ -44,11 +45,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <NavBar socket={socket} setLoggedIn={setLoggedIn} currentUser={currentUser}></NavBar>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<RegisterPage></RegisterPage>} />
           <Route path="/login" element={<LoginPage setCurrentUser={setCurrentUser} socket={socket} setLoggedIn={setLoggedIn}></LoginPage>} />
-          <Route path='/profile' element={<UserProfilePage user={usersData.filter((x) => x.username === currentUser)} loggedIn={loggedIn} socket={socket} usersData={usersData} currentUser={currentUser}></UserProfilePage>}></Route>
+          <Route path='/profile' element={<UserProfilePage socket={socket} currentUser={currentUser}></UserProfilePage>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

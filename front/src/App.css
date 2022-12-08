@@ -65,3 +65,40 @@
 .LoginComp button {
   padding: 0.6rem;
 }
+
+.NavBar {
+  background-color: rgb(245, 114, 114);
+  padding: 0.9rem;
+  box-shadow: 0px 10px rgb(224, 163, 163);
+  box-sizing: border-box;
+}
+
+.NavBar h2 {
+  margin-left: 25px;
+}
+
+.innerBar {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.innerBar div {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-right: 25px;
+}
+
+.NavBar a {
+  text-decoration: none;
+  color: black;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.ProfilePage img {
+  width: 400px;
+  height: 400px;
+}

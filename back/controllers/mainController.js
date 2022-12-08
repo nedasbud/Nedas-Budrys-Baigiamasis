@@ -39,10 +39,13 @@ module.exports = {
     res.send({ error: true, message: 'user is not logged in', data: null })
   },
   logout: async (req, res) => {
-    if (req.sessionID) {
-      req.session.destroy()
-      return res.send({ error: false, message: 'user logged out', data: null })
-    }
-    res.send({ error: true, message: 'user is not logged in, nothing to log out', data: null })
+    // if (req.session.stayLogged || !req.session.stayLogged) {
+    //   req.session.destroy()
+    //   return res.clearCookie('connect.sid', { path: '/' })
+    // }
+    // res.send({ error: true, message: 'user is not logged in, nothing to log out', data: null })
+    req.session.destroy(function () {
+      res.send({ msg: 'ok' })
+    })
   }
 }

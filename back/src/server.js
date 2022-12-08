@@ -26,8 +26,8 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true, methods: 'GET
 app.use(express.json())
 app.use(session({
   secret: 'tinderisxd',
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   cookie: { secure: false }
 }))
 require('dotenv').config()
@@ -66,5 +66,9 @@ io.on('connect', socket => {
       // socket.emit('getOne', value.filter((x) => x.username === data))
       socket.emit('getData', value)
     })
+  })
+
+  socket.on('disc', () => {
+    socket.disconnect(0)
   })
 })
