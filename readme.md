@@ -1,4 +1,4 @@
-# baigiamasis bimber ~~tinder~~ (for legal reasons) clone appsas
+# baigiamasis ~~tinder~~ **bimber** (for legal reasons) clone appsas
 
 ## bugai atm:
 
