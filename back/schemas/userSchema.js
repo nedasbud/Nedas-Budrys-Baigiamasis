@@ -26,6 +26,14 @@ const userSchema = new Schema(
     pictures: {
       type: [String],
       required: true
+    },
+    likes: {
+      type: [String],
+      required: true
+    },
+    seen: {
+      type: [String],
+      required: true
     }
   }
 )

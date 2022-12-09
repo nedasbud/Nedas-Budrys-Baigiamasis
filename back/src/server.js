@@ -39,6 +39,11 @@ app.get('/isLogged', router)
 app.get('/logout', router)
 app.set('socketio', io)
 
+let users = []
+setInterval(async () => {
+  users = await userSchema.find()
+}, 1000)
+
 io.on('connect', socket => {
   console.log('hi')
   const get = async () => {
@@ -73,5 +78,30 @@ io.on('connect', socket => {
       // socket.emit('getOne', value.filter((x) => x.username === data))
       socket.emit('getData', value)
     })
+  })
+
+  socket.on('getUser', data => {
+    const username = data
+    const user = users.filter((x) => x.username === username)
+    const withoutUser = users.filter((x) => x.username !== username)
+    let seenUsers
+    if (user.length > 0) seenUsers = user[0].seen
+    else seenUsers = []
+    console.log('seen users', seenUsers)
+    const unseen = withoutUser.filter((x) => !seenUsers.includes(x.username))
+    console.log('unseen', unseen)
+    if (unseen.length === 0) {
+      socket.emit('getUser', 'not found')
+    } else (socket.emit('getUser', unseen[0]))
+  })
+
+  socket.on('liked', data => {
+    userSchema.findOneAndUpdate({ username: data[0] }, { $push: { likes: data[1] } }, function (error) { if (error) { console.log(error) } else console.log('success') })
+    userSchema.findOneAndUpdate({ username: data[0] }, { $push: { seen: data[1] } }, function (error) { if (error) { console.log(error) } else console.log('success') })
+    console.log('ok')
+  })
+
+  socket.on('skipped', data => {
+    userSchema.findOneAndUpdate({ username: data[0] }, { $push: { seen: data[1] } }, function (error) { if (error) { console.log(error) } else console.log('success') })
   })
 })

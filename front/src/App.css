@@ -98,7 +98,8 @@
   font-weight: 700;
 }
 
-.ProfilePage img {
+.ProfilePage img,
+.UserCard img {
   width: 400px;
   height: 400px;
 }

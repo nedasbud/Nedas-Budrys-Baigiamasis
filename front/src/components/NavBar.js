@@ -27,6 +27,7 @@ const NavBar = ({ socket, setLoggedIn, currentUser }) => {
         <div>
           <Link to={'/profile'}>Configure your profile</Link>
           <Link>Edit your filters</Link>
+          <Link to={'/app'}>Discover new people</Link>
           <Link>Your matches</Link>
           <button onClick={handleLogout}>Log out</button></div>
       </div>}

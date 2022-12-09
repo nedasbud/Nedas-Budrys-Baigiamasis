@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import UserProfilePage from './pages/UserProfilePage';
 import NavBar from './components/NavBar';
+import MainPage from './pages/MainPage';
 
 const socket = io.connect('http://localhost:4000')
 
@@ -51,6 +52,7 @@ function App() {
           <Route path="/register" element={<RegisterPage></RegisterPage>} />
           <Route path="/login" element={<LoginPage setCurrentUser={setCurrentUser} socket={socket} setLoggedIn={setLoggedIn}></LoginPage>} />
           <Route path='/profile' element={<UserProfilePage socket={socket} currentUser={currentUser}></UserProfilePage>}></Route>
+          <Route path='/app' element={<MainPage socket={socket} currentUser={currentUser}></MainPage>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
