@@ -8,6 +8,6 @@ v2
 - no filtering, chatting
 - reik disablint routus be logino ir user feedbacka implementint
 v1
-- fixed ~~ profile page'as nesirefreshina po naujos foto/removinimo foto ~~
-- yra jau bet trashy :DD ~~ nera stiliaus Xdd ~~
+- fixed ~~profile page'as nesirefreshina po naujos foto/removinimo foto~~
+- yra jau bet trashy :DD ~~nera stiliaus Xdd~~
 
