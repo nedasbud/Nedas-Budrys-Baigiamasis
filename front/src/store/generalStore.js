@@ -8,7 +8,8 @@ export const generalSlice = createSlice({
     currentUser: '',
     userData: null,
     userCard: null,
-    userPics: 1
+    userPics: 1,
+    matches: []
   },
   reducers: {
     updateUsersData: (state, action) => {
@@ -28,10 +29,13 @@ export const generalSlice = createSlice({
     },
     updateUserPics: (state, action) => {
       state.userPics = action.payload
+    },
+    updateMatches: (state, action) => {
+      state.matches = action.payload
     }
   }
 })
 
-export const { updateUsersData, updateLoggedIn, updateCurrentUser, updateUserData, updateUserCard, updateUserPics } = generalSlice.actions
+export const { updateUsersData, updateLoggedIn, updateCurrentUser, updateUserData, updateUserCard, updateUserPics, updateMatches } = generalSlice.actions
 
 export default generalSlice.reducer

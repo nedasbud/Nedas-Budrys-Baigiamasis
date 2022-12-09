@@ -8,7 +8,8 @@ import UserProfilePage from './pages/UserProfilePage';
 import NavBar from './components/NavBar';
 import MainPage from './pages/MainPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateCurrentUser, updateLoggedIn, updateUserCard, updateUserData, updateUserPics, updateUsersData } from './store/generalStore';
+import { updateCurrentUser, updateLoggedIn, updateMatches, updateUserCard, updateUserData, updateUserPics, updateUsersData } from './store/generalStore';
+import LikesPage from './pages/LikesPage';
 
 const socket = io.connect('http://localhost:4000')
 
@@ -24,6 +25,7 @@ function App() {
   const userData = useSelector(state => state.generalStore.userData)
   const userCard = useSelector(state => state.generalStore.userCard)
   const userPics = useSelector(state => state.generalStore.userPics)
+  const matches = useSelector(state => state.generalStore.matches)
 
   const dispatch = useDispatch();
 
@@ -45,6 +47,9 @@ function App() {
   const setUserPics = (value) => {
     dispatch(updateUserPics(value))
   }
+  const setMatches = (value) => {
+    dispatch(updateMatches(value))
+  }
 
   if (!loggedIn) checkIfLogged()
 
@@ -60,6 +65,7 @@ function App() {
     setLoggedIn(true)
     setCurrentUser(data.data)
     socket.emit('getData')
+    console.log(data.data)
     socket.emit('getUser', data.data)
   }
 
@@ -75,6 +81,10 @@ function App() {
     if (loggedIn) setUserPics(data[0].pictures.length)
   })
 
+  socket.on('getMatches', data => {
+    setMatches(data)
+  })
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -85,6 +95,7 @@ function App() {
           <Route path="/login" element={<LoginPage setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} socket={socket}></LoginPage>} />
           <Route path='/profile' element={<UserProfilePage userPics={userPics} setUserPics={setUserPics} userData={userData} socket={socket} ></UserProfilePage>}></Route>
           {userPics >= 2 && <Route path='/app' element={<MainPage userCard={userCard} setUserCard={setUserCard} socket={socket} currentUser={currentUser}></MainPage>}></Route>}
+          <Route path='/matches' element={<LikesPage currentUser={currentUser} socket={socket} matches={matches}></LikesPage>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -11,7 +11,7 @@ const ProfileComp = ({ userPics, setUserPics, userData, socket }) => {
       newImg: picRef.current.value,
       username: userData.username
     })
-    setImgIndex(imgIndex - 1)
+    setImgIndex(imgIndex + 1)
     setUserPics(userPics + 1)
   }
 
@@ -20,7 +20,7 @@ const ProfileComp = ({ userPics, setUserPics, userData, socket }) => {
       username: userData.username,
       img: userData.pictures[imgIndex]
     })
-    setImgIndex(imgIndex - 1)
+    if (imgIndex > 0) setImgIndex(imgIndex - 1)
     setUserPics(userPics - 1)
   }
 

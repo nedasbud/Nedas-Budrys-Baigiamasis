@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const MainPage = ({ userCard, setUserCard, socket, currentUser }) => {
 
@@ -20,6 +20,15 @@ const MainPage = ({ userCard, setUserCard, socket, currentUser }) => {
       socket.emit('getUser', currentUser)
     }, 750);
   }
+
+  useEffect(() => {
+    const aaa = setInterval(() => {
+      socket.emit('getUser', currentUser)
+    }, 500);
+    return () => {
+      clearInterval(aaa);
+    }
+  })
 
   socket.off('getUser').on('getUser', data => {
     console.log('data ===', data)

@@ -42,7 +42,7 @@ app.set('socketio', io)
 let users = []
 setInterval(async () => {
   users = await userSchema.find()
-}, 1000)
+}, 1500)
 
 io.on('connect', socket => {
   console.log('hi')
@@ -67,7 +67,6 @@ io.on('connect', socket => {
     console.log(data)
     userSchema.findOneAndUpdate({ username: data.username }, { $push: { pictures: data.newImg } }, function (error) { if (error) { console.log(error) } else console.log('success') })
     get().then(value => {
-      // socket.emit('getOne', value.filter((x) => x.username === data))
       socket.emit('getData', value)
     })
   })
@@ -75,7 +74,6 @@ io.on('connect', socket => {
   socket.on('removingPicture', data => {
     userSchema.findOneAndUpdate({ username: data.username }, { $pull: { pictures: data.img } }, function (error) { if (error) { console.log(error) } else console.log('success') })
     get().then(value => {
-      // socket.emit('getOne', value.filter((x) => x.username === data))
       socket.emit('getData', value)
     })
   })
@@ -103,5 +101,28 @@ io.on('connect', socket => {
 
   socket.on('skipped', data => {
     userSchema.findOneAndUpdate({ username: data[0] }, { $push: { seen: data[1] } }, function (error) { if (error) { console.log(error) } else console.log('success') })
+  })
+
+  socket.on('getMatches', data => {
+    const username = data
+    const user = users.filter((x) => x.username === username)[0]
+    const usersThatLikeUser = []
+    const matches = []
+    if (users) {
+      users.forEach((user) => {
+        for (let i = 0; i < user.likes.length; i++) {
+          if (user.likes[i] === username) {
+            usersThatLikeUser.push(user.username)
+            return
+          }
+        }
+      })
+    }
+    if (user) {
+      for (let i = 0; i < usersThatLikeUser.length; i++) {
+        if (user.likes.includes(usersThatLikeUser[i])) { matches.push(usersThatLikeUser[i]) }
+      }
+    }
+    socket.emit('getMatches', users.filter((x) => matches.includes(x.username)))
   })
 })
