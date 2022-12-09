@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import MainComp from '../components/MainComp';
+import React, { useState } from 'react'
 
-const MainPage = ({ socket, currentUser }) => {
+const MainPage = ({ userCard, setUserCard, socket, currentUser }) => {
 
-  const [userCard, setUserCard] = useState(null);
   const [index, setIndex] = useState(0);
-
 
   const handleLike = () => {
     socket.emit('liked', [currentUser, userCard.username])
@@ -18,17 +15,20 @@ const MainPage = ({ socket, currentUser }) => {
   }
 
   const updateUser = () => {
-    socket.emit('getUser', currentUser)
-    socket.on('getUser', data => {
-      console.log('data===', data)
-      if (data !== 'not found') {
-        setUserCard(data)
-        setIndex(0)
-      }
-      else (setUserCard(null))
-    })
+    console.log('updatings')
+    setTimeout(() => {
+      socket.emit('getUser', currentUser)
+    }, 750);
   }
 
+  socket.off('getUser').on('getUser', data => {
+    console.log('data ===', data)
+    if (data !== 'not found') {
+      setUserCard(data)
+      setIndex(0)
+    }
+    else (setUserCard(null))
+  })
 
   return (
     <div>
@@ -42,7 +42,6 @@ const MainPage = ({ socket, currentUser }) => {
         <button onClick={handleLike} className='Like'>Like</button>
         <button onClick={handleSkip} className='Skip'>Skip</button>
       </div>}
-      {/* {userCard && <MainComp currentUser={currentUser} socket={socket} userCard={userCard} setUserCard={setUserCard}></MainComp>} */}
       {!userCard && <h2> No more users at the moment  </h2>}
     </div>
   )

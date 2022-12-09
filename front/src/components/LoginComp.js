@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const LoginComp = ({ setCurrentUser, socket, setLoggedIn }) => {
+const LoginComp = ({ setCurrentUser, setLoggedIn, socket }) => {
 
   const [checked, setChecked] = useState(false);
 
