@@ -6,7 +6,7 @@ const LikesPage = ({ currentUser, socket, matches }) => {
   useEffect(() => {
     const aaa = setInterval(() => {
       socket.emit('getMatches', currentUser)
-    }, 3000);
+    }, 200);
     return () => {
       clearInterval(aaa);
     }
@@ -15,7 +15,9 @@ const LikesPage = ({ currentUser, socket, matches }) => {
   return (
     <div>
       <h2>People that also liked you({matches.length}):</h2>
-      {matches && matches.map((x, i) => <LikeComp key={i} user={x}></LikeComp>)}
+      <div className='matches'>
+        {matches && matches.map((x, i) => <LikeComp key={i} user={x}></LikeComp>)}
+      </div>
     </div>
   )
 }

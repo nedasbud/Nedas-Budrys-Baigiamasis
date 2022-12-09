@@ -2,7 +2,6 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
-import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import UserProfilePage from './pages/UserProfilePage';
 import NavBar from './components/NavBar';
@@ -14,10 +13,6 @@ import LikesPage from './pages/LikesPage';
 const socket = io.connect('http://localhost:4000')
 
 function App() {
-
-  // const [usersData, setUsersData] = useState([]);
-  // const [loggedIn, setLoggedIn] = useState(false)
-  // const [currentUser, setCurrentUser] = useState('')
 
   const usersData = useSelector(state => state.generalStore.usersData)
   const loggedIn = useSelector(state => state.generalStore.loggedIn)

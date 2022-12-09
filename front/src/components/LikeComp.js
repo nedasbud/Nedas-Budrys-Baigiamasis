@@ -2,10 +2,10 @@ import React from 'react'
 
 const LikeComp = ({ user }) => {
   return (
-    <div>
-      <h1>Username: {user.username}</h1>
+    <div className='matchCard'>
+      <h1>{user.username}, {user.age}</h1>
       <img src={user.pictures[0]} alt="" />
-
+      <button className='disabled convoBtn'>Start a conversation</button>
     </div>
   )
 }

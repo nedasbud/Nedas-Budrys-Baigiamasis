@@ -6,19 +6,12 @@ const MainPage = ({ userCard, setUserCard, socket, currentUser }) => {
 
   const handleLike = () => {
     socket.emit('liked', [currentUser, userCard.username])
-    updateUser()
+    setIndex(0)
   }
 
   const handleSkip = () => {
     socket.emit('skipped', [currentUser, userCard.username])
-    updateUser()
-  }
-
-  const updateUser = () => {
-    console.log('updatings')
-    setTimeout(() => {
-      socket.emit('getUser', currentUser)
-    }, 750);
+    setIndex(0)
   }
 
   useEffect(() => {
@@ -34,19 +27,21 @@ const MainPage = ({ userCard, setUserCard, socket, currentUser }) => {
     console.log('data ===', data)
     if (data !== 'not found') {
       setUserCard(data)
-      setIndex(0)
     }
     else (setUserCard(null))
   })
 
   return (
     <div>
-      {userCard && <div>
+      {userCard && <div className='userCard'>
+        <h2>{userCard.username}, a {userCard.age} year old from {userCard.city}</h2>
         <div className='UserCard'>
-          <h2>username: {userCard.username}</h2>
+          {index > 0 && <button onClick={() => setIndex(index - 1)}> Previous picture</button>}
+          {index === 0 && <button className='disabled'> Previous picture</button>}
           <img src={userCard.pictures[index]} alt="" />
           {index < userCard.pictures.length - 1 && <button onClick={() => setIndex(index + 1)}> Next picture</button>}
-          {index > 0 && <button onClick={() => setIndex(index - 1)}> Previous picture</button>}
+          {index === userCard.pictures.length - 1 && <button className='disabled'>Next picture</button>}
+          {index === userCard.pictures.length && <button className='disabled'>Next picture</button>}
         </div>
         <button onClick={handleLike} className='Like'>Like</button>
         <button onClick={handleSkip} className='Skip'>Skip</button>
