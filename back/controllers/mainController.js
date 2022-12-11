@@ -13,7 +13,7 @@ module.exports = {
   },
   login: async (req, res) => {
     const { username, password, stayLogged } = req.body
-    console.log(req.body)
+    // console.log(req.body)
     const user = await UserSchema.findOne({ username })
     if (!user) return res.send({ error: true, message: 'user not found', data: null })
     const dehash = await bcrypt.compare(password, user.password)
@@ -39,11 +39,6 @@ module.exports = {
     res.send({ error: true, message: 'user is not logged in', data: null })
   },
   logout: async (req, res) => {
-    // if (req.session.stayLogged || !req.session.stayLogged) {
-    //   req.session.destroy()
-    //   return res.clearCookie('connect.sid', { path: '/' })
-    // }
-    // res.send({ error: true, message: 'user is not logged in, nothing to log out', data: null })
     req.session.destroy(function () {
       res.send({ msg: 'ok' })
     })

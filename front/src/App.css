@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   background-color: rgba(187, 255, 0, 0.13);
+  min-height: 1000px;
 }
 
 .App-logo {
@@ -177,7 +178,7 @@
 
 .userInfo {
   background-color: rgba(37, 140, 97, 0.518);
-  width: 400px;
+  width: 500px;
   border-radius: 15px;
   margin: auto;
   padding: 0.3rem;
@@ -241,4 +242,66 @@
 .mainRef {
   position: absolute;
   left: 42%;
+}
+
+.fdbck {
+  background-color: white;
+  padding: 15px;
+  border-radius: 25px;
+  text-transform: uppercase;
+}
+
+.good {
+  color: green;
+}
+
+.bad {
+  color: red;
+}
+
+.filters {
+  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsUT_R01g9QyrwsdB4nOHnTQZtVMDR1mB45Q&usqp=CAU);
+  opacity: 0.8;
+  padding: 25px;
+  border-radius: 25px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 50px auto 15px;
+  gap: 4px;
+}
+
+.filters input,
+.filters select {
+  padding: 5px;
+}
+
+.filters button {
+  background-color: palevioletred;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.historyPage {
+  display: flex;
+  gap: 35px;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.historyPage img {
+  width: 400px;
+  height: 400px;
+}
+
+.historyBtn {
+  padding: 20px;
+  margin-top: 50px;
+  border-radius: 50px;
+  background-color: burlywood;
+  font-weight: 700;
+  font-size: 20px;
 }

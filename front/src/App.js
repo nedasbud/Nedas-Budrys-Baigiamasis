@@ -9,6 +9,7 @@ import MainPage from './pages/MainPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentUser, updateLoggedIn, updateMatches, updateUserCard, updateUserData, updateUserPics, updateUsersData } from './store/generalStore';
 import LikesPage from './pages/LikesPage';
+import HistoryPage from './pages/HistoryPage';
 
 const socket = io.connect('http://localhost:4000')
 
@@ -51,7 +52,7 @@ function App() {
   async function checkIfLogged() {
     const res = await fetch('http://localhost:4000/isLogged', { credentials: "include" })
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     if (data.error) {
       console.log('neprisijunges? :)')
       setLoggedIn(false)
@@ -60,18 +61,18 @@ function App() {
     setLoggedIn(true)
     setCurrentUser(data.data)
     socket.emit('getData')
-    console.log(data.data)
+    // console.log(data.data)
     socket.emit('getUser', data.data)
   }
 
   socket.off('getData').on('getData', data => {
-    console.log('atnaujino')
+    // console.log('atnaujino')
     setUsersData(data)
     socket.emit('getOne', currentUser)
   })
 
   socket.off('getOne').on('getOne', data => {
-    console.log('vienas useris => ', data)
+    // console.log('vienas useris => ', data)
     setUserData(data)
     if (loggedIn) setUserPics(data[0].pictures.length)
   })
@@ -91,6 +92,7 @@ function App() {
           <Route path='/profile' element={<UserProfilePage userPics={userPics} setUserPics={setUserPics} userData={userData} socket={socket} ></UserProfilePage>}></Route>
           {userPics >= 2 && <Route path='/app' element={<MainPage userCard={userCard} setUserCard={setUserCard} socket={socket} currentUser={currentUser}></MainPage>}></Route>}
           <Route path='/matches' element={<LikesPage currentUser={currentUser} socket={socket} matches={matches}></LikesPage>}></Route>
+          <Route path='/history' element={<HistoryPage socket={socket}></HistoryPage>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

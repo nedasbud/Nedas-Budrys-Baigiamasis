@@ -8,6 +8,8 @@ const LoginComp = ({ setCurrentUser, setLoggedIn, socket }) => {
   const uRef = useRef();
   const pRef = useRef();
   const nav = useNavigate();
+  const [feedback, setFeedback] = useState('')
+  const [isBad, setIsBad] = useState('fdbck good')
 
   const changeCheck = () => {
     setChecked(!checked);
@@ -29,15 +31,24 @@ const LoginComp = ({ setCurrentUser, setLoggedIn, socket }) => {
     const res = await fetch('http://localhost:4000/login', options)
     const data = await res.json();
     console.log(data);
-    if (data.error) { return }
+    if (data.error) {
+      setFeedback(data.message)
+      setIsBad('fdbck bad')
+      return
+    }
+    setFeedback(data.message)
+    setIsBad('fdbck good')
     setLoggedIn(true)
     setCurrentUser(data.data.username)
     socket.emit('getData')
-    nav('/profile');
+    setTimeout(() => {
+      nav('/profile');
+    }, 500);
   }
 
   return (
     <div className='LoginComp'>
+      {feedback !== '' && <h2 className={isBad}> {feedback} </h2>}
       <input ref={uRef} type="text" placeholder='Username' />
       <input ref={pRef} type="text" placeholder='Password' />
       <label htmlFor="check">Stay logged in</label>

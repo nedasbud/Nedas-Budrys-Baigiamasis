@@ -45,7 +45,6 @@ setInterval(async () => {
 }, 1500)
 
 io.on('connect', socket => {
-  console.log('hi')
   const get = async () => {
     const data = await userSchema.find()
     return data
@@ -64,7 +63,7 @@ io.on('connect', socket => {
   })
 
   socket.on('uploadingPicture', data => {
-    console.log(data)
+    // console.log(data)
     userSchema.findOneAndUpdate({ username: data.username }, { $push: { pictures: data.newImg } }, function (error) { if (error) { console.log(error) } else console.log('success') })
     get().then(value => {
       socket.emit('getData', value)
@@ -79,15 +78,21 @@ io.on('connect', socket => {
   })
 
   socket.on('getUser', data => {
-    const username = data
+    const username = data[0]
+    const filters = data[1]
     const user = users.filter((x) => x.username === username)
-    const withoutUser = users.filter((x) => x.username !== username)
+    let withoutUser = users.filter((x) => x.username !== username)
+    // console.log(filters)
+    if (filters.min !== '') { withoutUser = withoutUser.filter((x) => x.age >= filters.min) }
+    if (filters.max !== '') { withoutUser = withoutUser.filter((x) => x.age <= filters.max) }
+    if (filters.gender !== '') { withoutUser = withoutUser.filter((x) => x.gender === filters.gender) }
+    if (filters.city !== '') { withoutUser = withoutUser.filter((x) => x.city === filters.city) }
     let seenUsers
     if (user.length > 0) seenUsers = user[0].seen
     else seenUsers = []
-    console.log('seen users', seenUsers)
+    // console.log('seen users', seenUsers)
     const unseen = withoutUser.filter((x) => !seenUsers.includes(x.username))
-    console.log('unseen', unseen)
+    // console.log('unseen', unseen)
     if (unseen.length === 0) {
       socket.emit('getUser', 'not found')
     } else (socket.emit('getUser', unseen[0]))
@@ -124,5 +129,12 @@ io.on('connect', socket => {
       }
     }
     socket.emit('getMatches', users.filter((x) => matches.includes(x.username)))
+  })
+
+  socket.on('getHistory', data => {
+    const username = data
+    const user = users.filter((x) => x.username === username)
+    const history = users.filter((x) => user[0].likes.includes(x.username))
+    socket.emit('getHistory', history)
   })
 })
