@@ -24,7 +24,7 @@ const LikesPage = ({ currentUser, socket, matches }) => {
     <div>
       {matches.length > 0 && <h2>People that also liked you({matches.length}):</h2>}
       <div className='matches'>
-        {matches.length === 0 && <h3>Seem's like there's no matches yet. Keep on swiping!</h3>}
+        {matches.length === 0 && <h3>Seems like there's no matches yet. Keep on swiping!</h3>}
         {matches && matches.map((x, i) => <LikeComp key={i} user={x}></LikeComp>)}
       </div>
       <button className='historyBtn' onClick={handleHistory}>Want to see the people that you liked? Click here</button>

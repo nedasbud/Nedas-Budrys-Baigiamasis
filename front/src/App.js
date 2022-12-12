@@ -91,6 +91,7 @@ function App() {
           <Route path="/login" element={<LoginPage setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} socket={socket}></LoginPage>} />
           <Route path='/profile' element={<UserProfilePage userPics={userPics} setUserPics={setUserPics} userData={userData} socket={socket} ></UserProfilePage>}></Route>
           {userPics >= 2 && <Route path='/app' element={<MainPage userCard={userCard} setUserCard={setUserCard} socket={socket} currentUser={currentUser}></MainPage>}></Route>}
+          {userPics < 2 && <Route path='/app' element={<h1 style={{ color: 'red' }}>You must upload atleast 2 photos before you can see other users</h1>}></Route>}
           <Route path='/matches' element={<LikesPage currentUser={currentUser} socket={socket} matches={matches}></LikesPage>}></Route>
           <Route path='/history' element={<HistoryPage socket={socket}></HistoryPage>}></Route>
         </Routes>

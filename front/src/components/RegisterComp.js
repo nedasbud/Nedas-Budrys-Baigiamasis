@@ -42,7 +42,7 @@ const RegisterComp = () => {
     setIsBad('fdbck good')
     setTimeout(() => {
       nav('/login')
-    }, 1500);
+    }, 1000);
   }
 
 
